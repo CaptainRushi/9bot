@@ -419,6 +419,31 @@
       if (el) el.remove();
     }
 
+    // ─── Extract Page Context (RAG equivalent) ─────────────────────────────
+    extractPageContext() {
+      try {
+        const title = document.title || "";
+        let metaDesc = "";
+        const meta = document.querySelector('meta[name="description"]');
+        if (meta) metaDesc = meta.getAttribute("content") || "";
+        
+        // Grab body text but normalize whitespace and limit length so we don't blow up token limits
+        let bodyText = document.body.innerText || "";
+        bodyText = bodyText.replace(/\s+/g, ' ').trim();
+        if (bodyText.length > 3000) bodyText = bodyText.substring(0, 3000) + "... (truncated)";
+
+        return {
+          url: window.location.href,
+          title: title,
+          metaDescription: metaDesc,
+          content: bodyText
+        };
+      } catch (e) {
+        console.warn("[Chatbot] Failed to extract page context", e);
+        return null;
+      }
+    }
+
     // ─── Fetch AI Reply ──────────────────────────────────────────────────────
     async fetchReply() {
       this.showTyping();
@@ -431,6 +456,7 @@
             botId: this.botId,
             messages: this.messages,
             sessionId: this.sessionId,
+            pageContext: this.extractPageContext()
           }),
         });
 

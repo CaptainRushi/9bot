@@ -224,7 +224,7 @@ app.get("/api/bots/:botId/config", rateLimit, async (req, res) => {
 app.post("/api/chat", rateLimit, async (req, res) => {
   if (supabaseServiceKey === "missing_service_key") return res.status(500).json({ error: "Missing Supabase Service Key on Server" });
 
-  const { botId, messages, sessionId } = req.body;
+  const { botId, messages, sessionId, pageContext } = req.body;
   if (!botId || !messages) return res.status(400).json({ error: "botId and messages required." });
 
   try {
@@ -246,10 +246,22 @@ app.post("/api/chat", rateLimit, async (req, res) => {
       });
     }
 
+    let dynamicSystemPrompt = bot.system_prompt;
+    if (pageContext) {
+      dynamicSystemPrompt += `\n\n=== LIVE WEBSITE CONTEXT ===\n`;
+      dynamicSystemPrompt += `IMPORTANT: Analyze the content below. This is the exact webpage the user is currently viewing. Use this as your primary knowledge base to answer their questions about the product/service:\n`;
+      if (pageContext.title) dynamicSystemPrompt += `- Page Title: ${pageContext.title}\n`;
+      if (pageContext.url) dynamicSystemPrompt += `- Page URL: ${pageContext.url}\n`;
+      if (pageContext.metaDescription) dynamicSystemPrompt += `- Meta Description: ${pageContext.metaDescription}\n`;
+      if (pageContext.content) {
+        dynamicSystemPrompt += `\n- Extracted Page Content:\n"""\n${pageContext.content}\n"""\n`;
+      }
+    }
+
     const clientOpenAI = new OpenAI({ apiKey: clientApiKey });
     const aiResponse = await clientOpenAI.chat.completions.create({
       model: "gpt-4o-mini",
-      messages: [{ role: "system", content: bot.system_prompt }, ...messages],
+      messages: [{ role: "system", content: dynamicSystemPrompt }, ...messages],
       max_tokens: 500,
     });
     const botReply = aiResponse.choices[0].message.content;
