@@ -452,6 +452,84 @@
       .navbar { padding: 16px 24px; }
     }
 
+    /* ═══ PORTFOLIO SECTION ═══ */
+    .portfolio-section {
+      padding: 100px 48px;
+      max-width: 1400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .portfolio-header h2 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 16px;
+      color: #050505;
+    }
+    .portfolio-header p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 60px;
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      text-align: left;
+    }
+    .portfolio-card {
+      background: #f8f8fb;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      transition: transform 0.3s;
+    }
+    .portfolio-card:hover {
+      transform: translateY(-4px);
+      border-color: #d1d5db;
+    }
+    .portfolio-image {
+      background: #fff;
+      height: 200px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .portfolio-content h3 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: #050505;
+      margin-bottom: 8px;
+    }
+    .portfolio-content p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .portfolio-tags {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .portfolio-tag {
+      background: #e4e4e7;
+      color: #000;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
     /* ═══ PRICING SECTION ═══ */
     .pricing-section {
       padding: 100px 48px;
@@ -688,6 +766,57 @@
     <div class="logo-item" style="display:flex;align-items:center;gap:6px;">
        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L3.6 5.4 12 10.8l8.4-5.4L12 0zm-8.4 6.8L0 12l8.4 5.4 4.2-2.7L4.2 9.3l-.6-2.5zM12 24l8.4-5.4-8.4-5.4-8.4 5.4L12 24zm8.4-17.2L12 12l4.2 2.7 8.4-5.4-4.2-2.5z"/></svg> 
        Dropbox
+    </div>
+  </section>
+
+  <!-- ═══ PORTFOLIO SECTION ═══ -->
+  <section class="portfolio-section" id="work">
+    <div class="portfolio-header">
+      <h2>My Recent Work</h2>
+      <p>Custom AI chatbots I've built and seamlessly integrated into client platforms. Zero maintenance, 100% automated.</p>
+    </div>
+    <div class="portfolio-grid">
+      <div class="portfolio-card">
+        <div class="portfolio-image" style="background: linear-gradient(135deg, #d4f245, #a4df92);">
+          <div style="font-size: 64px;">🦷</div>
+        </div>
+        <div class="portfolio-content">
+          <h3>SmileCare Dental Bot</h3>
+          <p>An intelligent assistant that answers FAQ, schedules appointments, and collects patient leads 24/7 directly from the clinic's website.</p>
+          <div class="portfolio-tags">
+            <span class="portfolio-tag">Healthcare</span>
+            <span class="portfolio-tag">Lead Gen</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="portfolio-card">
+        <div class="portfolio-image" style="background: linear-gradient(135deg, #111, #333);">
+          <div style="font-size: 64px;">🏢</div>
+        </div>
+        <div class="portfolio-content">
+          <h3>Luxe Real Estate Assistant</h3>
+          <p>Real estate bot equipped to search property listings instantly and automatically forward interested buyers to human agents.</p>
+          <div class="portfolio-tags">
+            <span class="portfolio-tag">Real Estate</span>
+            <span class="portfolio-tag">Sales RAG</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-card">
+        <div class="portfolio-image" style="background: linear-gradient(135deg, #e0e7ff, #c7d2fe);">
+          <div style="font-size: 64px;">💻</div>
+        </div>
+        <div class="portfolio-content">
+          <h3>SaaS Technical Support</h3>
+          <p>Provides instant L1 technical support, reads current SaaS documentation dynamically, and handles basic troubleshooting.</p>
+          <div class="portfolio-tags">
+            <span class="portfolio-tag">B2B SaaS</span>
+            <span class="portfolio-tag">Support</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
