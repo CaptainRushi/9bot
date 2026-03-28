@@ -99,6 +99,13 @@ app.post("/api/auth/login", async (req, res) => {
   });
 });
 
+app.get("/api/auth/google", (req, res) => {
+  const origin = req.get("origin") || req.protocol + "://" + req.get("host");
+  // Pass the Supabase Anon Key as apikey in header or query if needed? No, /auth/v1/authorize?provider=google does NOT need Anon Key strictly, but supplying it as 'apikey' query parameter is safer for Supabase instances that enforce it.
+  const redirectUrl = `${supabaseUrl}/auth/v1/authorize?provider=google&apikey=${supabaseAnonKey}&redirect_to=${encodeURIComponent(origin + "/dashboard.html")}`;
+  res.redirect(redirectUrl);
+});
+
 app.get("/api/auth/me", requireAuth, async (req, res) => {
   const { data, error } = await req.supabase.from("profiles").select("*").eq("id", req.userId).single();
   // Using user metadata if profile trigger hasn't fired yet

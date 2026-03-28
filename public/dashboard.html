@@ -580,6 +580,18 @@
 
     // ═══ INIT ═══
     window.addEventListener("DOMContentLoaded", () => {
+      // Parse Supabase OAuth callback hash if present
+      const hash = window.location.hash;
+      if (hash && hash.includes("access_token")) {
+        const params = new URLSearchParams(hash.substring(1));
+        const accessToken = params.get("access_token");
+        if (accessToken) {
+          localStorage.setItem("bf_token", accessToken);
+          state.token = accessToken;
+          window.history.replaceState(null, "", window.location.pathname);
+        }
+      }
+
       if (state.token) {
         checkAuth();
       } else {
@@ -631,11 +643,8 @@
     }
 
     function handleGoogleAuth() {
-      // In a live Supabase environment, you would use:
-      // supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin + '/dashboard.html' } })
-      
-      const errorEl = document.getElementById("auth-error");
-      errorEl.innerHTML = '<div class="error-msg" style="color:#fbbf24; background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.2);">Google Sign-In requires connecting your Supabase project to Google Cloud Console. See the README documentation for steps!</div>';
+      // Redirects to our backend, which immediately forwards to Supabase OAuth
+      window.location.href = "/api/auth/google";
     }
 
     async function handleAuth() {
